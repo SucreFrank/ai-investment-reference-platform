@@ -12,6 +12,7 @@ test("static site contains required product sections and compliance copy", () =>
   [
     "AI 投资参考平台",
     "热点行业观察",
+    "ETF 指标解读",
     "行业 / 公司查询",
     "投资术语速查",
     "风险提示与免责声明",
@@ -24,12 +25,22 @@ test("demo data covers industries, companies, risks, and glossary terms", () => 
 
   assert.equal(data.industries.length, 5);
   assert.equal(data.terms.length, 12);
+  assert.equal(data.assetDemo.name, "沪深300ETF");
+  assert.ok(data.assetDemo.metrics.length >= 8);
 
   data.industries.forEach((industry) => {
     assert.ok(industry.name);
     assert.ok(industry.simple);
     assert.ok(industry.risks.length >= 3);
     assert.ok(industry.companies.length >= 3);
+  });
+
+  data.assetDemo.metrics.forEach((metric) => {
+    assert.ok(metric.name);
+    assert.ok(metric.brief);
+    assert.ok(metric.explain);
+    assert.ok(metric.beginner);
+    assert.ok(metric.pitfalls.length >= 2);
   });
 });
 
@@ -38,6 +49,7 @@ test("PRD and README document demo boundaries", () => {
   const readme = read("README.md");
 
   assert.match(prd, /参考而非荐股/);
+  assert.match(prd, /具体 ETF 指标解读/);
   assert.match(prd, /Demo 数据必须明确标注为演示样例/);
   assert.match(readme, /使用静态演示数据/);
   assert.match(readme, /不提供买入、卖出、目标价、收益承诺/);

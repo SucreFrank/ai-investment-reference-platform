@@ -12,6 +12,7 @@
   };
 
   let activeIndustryId = data.industries[0].id;
+  let activeMetricId = data.assetDemo.metrics[0].id;
 
   function renderMetrics() {
     $("#industry-count").textContent = String(data.industries.length);
@@ -148,10 +149,88 @@
     });
   }
 
+  function renderAssetDemo() {
+    const asset = data.assetDemo;
+    $("#asset-type").textContent = asset.label;
+    $("#asset-name").textContent = asset.name;
+    $("#asset-code").textContent = `${asset.type} · ${asset.code}`;
+    $("#asset-description").textContent = asset.description;
+
+    const notes = $("#asset-notes");
+    notes.innerHTML = "";
+    asset.notes.forEach((note) => {
+      const item = create("li", "", note);
+      notes.appendChild(item);
+    });
+
+    const grid = $("#asset-metric-grid");
+    grid.innerHTML = "";
+    asset.metrics.forEach((metric) => {
+      const button = create("button", "asset-metric-card");
+      button.type = "button";
+      button.dataset.metricId = metric.id;
+      button.dataset.tip = metric.brief;
+      button.setAttribute("aria-describedby", "metric-explainer");
+      button.innerHTML = `
+        <span class="metric-name">${metric.name}</span>
+        <strong>${metric.value}</strong>
+        <span class="metric-brief">${metric.brief}</span>
+      `;
+      button.addEventListener("click", () => selectMetric(metric.id));
+      grid.appendChild(button);
+    });
+
+    selectMetric(activeMetricId);
+  }
+
+  function selectMetric(id) {
+    const asset = data.assetDemo;
+    const metric = asset.metrics.find((item) => item.id === id) || asset.metrics[0];
+    activeMetricId = metric.id;
+
+    $("#metric-explainer").innerHTML = `
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Metric Explain</p>
+          <h3>${metric.name}</h3>
+        </div>
+        <span class="status-pill">${metric.value}</span>
+      </div>
+      <p class="metric-context">${asset.name} · ${asset.updatedAt}</p>
+      <div class="info-block">
+        <h4>这个指标是什么</h4>
+        <p>${metric.explain}</p>
+      </div>
+      <div class="info-block">
+        <h4>小白怎么看</h4>
+        <p>${metric.beginner}</p>
+      </div>
+      <div class="info-block">
+        <h4>需要一起看的信息</h4>
+        <p>${metric.watch}</p>
+      </div>
+      <div class="info-block warning">
+        <h4>常见误区</h4>
+        <ul>${metric.pitfalls.map((item) => `<li>${item}</li>`).join("")}</ul>
+      </div>
+      <div class="risk-card">
+        <strong>提示</strong>
+        <span>${disclaimer}</span>
+      </div>
+    `;
+
+    document.querySelectorAll(".asset-metric-card").forEach((card) => {
+      const isActive = card.dataset.metricId === metric.id;
+      card.classList.toggle("active", isActive);
+      card.setAttribute("aria-pressed", String(isActive));
+    });
+  }
+
   function renderQuickTags() {
     const tags = $("#quick-tags");
     const keywords = [
       ...data.industries.map((industry) => industry.name),
+      data.assetDemo.name,
       "机器人",
       "芯片",
       "医药",
@@ -186,15 +265,54 @@
     });
   }
 
+  function findAsset(query) {
+    const normalized = normalizeQuery(query);
+    if (!normalized) return null;
+
+    const asset = data.assetDemo;
+    const text = [asset.name, asset.code, asset.type, asset.label].join(" ").toLowerCase();
+    return text.includes(normalized) || normalized.includes(asset.name.toLowerCase()) ? asset : null;
+  }
+
   function runQuery(rawQuery) {
     const result = $("#query-result");
     const query = rawQuery.trim();
     const industry = findIndustry(query);
+    const asset = findAsset(query);
 
     if (!query) {
       result.innerHTML = `
         <h3>请输入想了解的行业或公司</h3>
         <p>可以尝试：AI 算力、半导体、机器人、创新药、低空经济。</p>
+      `;
+      return;
+    }
+
+    if (!industry && asset) {
+      result.innerHTML = `
+        <div class="query-heading">
+          <div>
+            <p class="eyebrow">ETF Result</p>
+            <h3>${asset.name}</h3>
+          </div>
+          <span class="status-pill">指标解读</span>
+        </div>
+        <p class="query-summary">${asset.description}</p>
+        <div class="query-grid">
+          <div>
+            <h4>资产类型</h4>
+            <p>${asset.label}</p>
+          </div>
+          <div>
+            <h4>可查看指标</h4>
+            <p>${asset.metrics.map((metric) => metric.name).join("、")}。</p>
+          </div>
+        </div>
+        <a class="button secondary inline-link" href="#asset-lab">查看 ETF 指标解释</a>
+        <div class="risk-card">
+          <strong>提示</strong>
+          <span>${disclaimer}</span>
+        </div>
       `;
       return;
     }
@@ -307,6 +425,7 @@
     renderMetrics();
     renderHeatmap();
     renderIndustryCards();
+    renderAssetDemo();
     renderQuickTags();
     renderTerms();
     bindSearch();

@@ -19,6 +19,7 @@
         </a>
         <div class="nav-links">
           <a href="#hot-sectors">热点行业</a>
+          <a href="#asset-lab">指标</a>
           <a href="#search">查询</a>
           <a href="#terms">术语</a>
           <a href="#risk">风险提示</a>
@@ -106,10 +107,36 @@
         </aside>
       </section>
 
-      <section id="search" class="section-shell content-section" aria-labelledby="search-title">
+      <section id="asset-lab" class="section-shell content-section" aria-labelledby="asset-title">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Section 02</p>
+            <h2 id="asset-title">ETF 指标解读</h2>
+          </div>
+          <p>把解释嵌入具体资产指标：悬停看短提示，点击后在右侧查看小白版说明。</p>
+        </div>
+        <div class="asset-layout">
+          <article class="asset-card" aria-labelledby="asset-name">
+            <div class="asset-header">
+              <div>
+                <p class="eyebrow" id="asset-type">ETF Demo</p>
+                <h3 id="asset-name">资产名称</h3>
+              </div>
+              <span class="status-pill muted" id="asset-code">--</span>
+            </div>
+            <p class="asset-description" id="asset-description"></p>
+            <ul class="asset-notes" id="asset-notes"></ul>
+            <div class="asset-metric-grid" id="asset-metric-grid"></div>
+            <p class="demo-note">指标为演示样例。点击任意指标可在右侧查看解释，不构成投资建议。</p>
+          </article>
+          <aside class="metric-explainer" id="metric-explainer" aria-live="polite"></aside>
+        </div>
+      </section>
+
+      <section id="search" class="section-shell content-section" aria-labelledby="search-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Section 03</p>
             <h2 id="search-title">行业 / 公司查询</h2>
           </div>
           <p>输入演示关键词，查看结构化解释、研究线索和风险点。</p>
