@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="AI 投资参考平台 Demo，为投资小白解释热点行业、代表公司和基础投资概念。"
+    />
+    <title>AI 投资参考平台</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="主导航">
+        <a class="brand" href="#top" aria-label="AI 投资参考平台首页">
+          <span class="brand-mark" aria-hidden="true">AI</span>
+          <span>投资参考平台</span>
+        </a>
+        <div class="nav-links">
+          <a href="#hot-sectors">热点行业</a>
+          <a href="#search">查询</a>
+          <a href="#terms">术语</a>
+          <a href="#risk">风险提示</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">演示样例数据 · 仅供学习参考</p>
+          <h1 id="page-title">AI 投资参考平台</h1>
+          <p class="hero-lead">
+            用普通语言解释热点行业、代表公司和关键投资概念，帮助投资小白找到值得继续研究的方向。
+          </p>
+          <div class="hero-actions" aria-label="快捷入口">
+            <a class="button primary" href="#hot-sectors">查看热点行业</a>
+            <a class="button secondary" href="#search">查询行业 / 公司</a>
+          </div>
+          <p class="risk-inline">
+            不提供买卖建议，不承诺收益；所有内容仅用于产品演示、投资学习和信息参考。
+          </p>
+        </div>
+        <aside class="market-panel" aria-label="市场观察概览">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Market Map</p>
+              <h2>热点方向概览</h2>
+            </div>
+            <span class="status-pill">Demo</span>
+          </div>
+          <div class="heatmap" id="heatmap" aria-label="热点行业热度图"></div>
+          <dl class="metric-grid">
+            <div>
+              <dt>行业样例</dt>
+              <dd id="industry-count">0</dd>
+            </div>
+            <div>
+              <dt>术语解释</dt>
+              <dd id="term-count">0</dd>
+            </div>
+            <div>
+              <dt>风险覆盖</dt>
+              <dd>100%</dd>
+            </div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="section-shell notice-band" aria-label="产品边界">
+        <strong>产品边界：</strong>
+        <span>这是信息解释和研究线索 Demo，不是荐股工具，也不是证券投资顾问服务。</span>
+      </section>
+
+      <section id="hot-sectors" class="section-shell content-section" aria-labelledby="hot-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Section 01</p>
+            <h2 id="hot-title">热点行业观察</h2>
+          </div>
+          <p>先看懂行业为什么被关注，再判断是否值得继续研究。</p>
+        </div>
+        <div class="sector-grid" id="sector-grid"></div>
+      </section>
+
+      <section class="section-shell split-layout" aria-labelledby="detail-title">
+        <article class="detail-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Industry Brief</p>
+              <h2 id="detail-title">行业详情解读</h2>
+            </div>
+            <span class="status-pill muted">小白版</span>
+          </div>
+          <div id="industry-detail"></div>
+        </article>
+        <aside class="company-panel" aria-labelledby="company-title">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Company Watch</p>
+              <h2 id="company-title">代表公司观察</h2>
+            </div>
+          </div>
+          <div id="company-list" class="company-list"></div>
+        </aside>
+      </section>
+
+      <section id="search" class="section-shell content-section" aria-labelledby="search-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Section 02</p>
+            <h2 id="search-title">行业 / 公司查询</h2>
+          </div>
+          <p>输入演示关键词，查看结构化解释、研究线索和风险点。</p>
+        </div>
+        <form class="search-box" id="search-form">
+          <label for="query-input">查询关键词</label>
+          <div class="search-row">
+            <input
+              id="query-input"
+              type="search"
+              name="query"
+              autocomplete="off"
+              placeholder="例如：机器人、半导体、创新药、AI 算力"
+            />
+            <button class="button primary" type="submit">查询</button>
+          </div>
+        </form>
+        <div class="quick-tags" id="quick-tags" aria-label="演示关键词"></div>
+        <article class="query-result" id="query-result" aria-live="polite"></article>
+      </section>
+
+      <section id="terms" class="section-shell content-section" aria-labelledby="terms-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Beginner Glossary</p>
+            <h2 id="terms-title">投资术语速查</h2>
+          </div>
+          <p>把常见财经词汇翻译成更容易理解的判断语言。</p>
+        </div>
+        <div class="terms-layout">
+          <div class="term-grid" id="term-grid"></div>
+          <article class="term-detail" id="term-detail"></article>
+        </div>
+      </section>
+
+      <section id="risk" class="section-shell risk-section" aria-labelledby="risk-title">
+        <p class="eyebrow">Risk Notice</p>
+        <h2 id="risk-title">风险提示与免责声明</h2>
+        <p>
+          本平台内容仅用于产品演示、投资学习和信息参考，不构成任何证券、基金、期货或其他金融产品的投资建议。投资有风险，决策需谨慎。
+        </p>
+        <ul>
+          <li>页面展示的是静态演示样例，不代表实时市场热点、行情或正式研究报告。</li>
+          <li>平台不提供买入、卖出、目标价、收益承诺或个性化资产配置建议。</li>
+          <li>任何投资决策都应结合自身风险承受能力，并进一步查阅权威公开资料。</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>AI 投资参考平台 Demo</span>
+      <span>仅供学习参考，不构成投资建议。</span>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
